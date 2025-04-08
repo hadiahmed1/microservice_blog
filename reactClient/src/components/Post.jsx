@@ -1,19 +1,9 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import CreateComment from "./CreateComment";
 
 const Post = ({ post }) => {
     const fetchComments = async () => {
-        let config = {
-            method: 'get',
-            maxBodyLength: Infinity,
-            url: `http://localhost:3001/posts/${post.id}/comments`,
-            headers: {}
-        };
-
-        const response = await axios.request(config);
-        setComments(response.data || []);
-
+        setComments(post.comments)
     }
     const [comments, setComments] = useState([]);
     useEffect(() => {
@@ -26,7 +16,7 @@ const Post = ({ post }) => {
                 <CreateComment id={post.id} />
                 Comments:
                 <ol>
-                    {comments.map(comment => <li>{comment.text}</li>)}
+                    {comments.map(comment => <li key={comment.id} >{comment.text}</li>)}
                 </ol>
             </div>
 

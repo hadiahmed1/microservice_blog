@@ -26,7 +26,7 @@ const CreatePost = () => {
     return (
         <div>
             <h2 className="form-control text-slate-300">ADD POST:</h2>
-            <form pre>
+            <form>
                 <input value={text} onChange={e => setText(e.target.value)} type="text" placeholder="enter post" />
                 <button type="button" onClick={() => submitPost()} className="bg-slate-300">Submit</button>
             </form>

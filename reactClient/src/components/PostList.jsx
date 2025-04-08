@@ -6,7 +6,7 @@ const PostList=()=>{
     const [posts,setPosts] = useState([]);
     
     const fetchPosts = async () => {
-        const response = await axios.get("http://localhost:3002/posts");
+        const response = await axios.get("http://localhost:3003/posts");
         setPosts(response.data);
     }
     useEffect(() => {
@@ -15,7 +15,7 @@ const PostList=()=>{
     return (
         <div className="text-slate-300">
             POST list
-            {posts.map(post => <Post key={post.id} post={post}/> )}
+            {Object.keys(posts).map(id => <Post key={id} post={posts[id]}/> )}
         </div>
     );
 }

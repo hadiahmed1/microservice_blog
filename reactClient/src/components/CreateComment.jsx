@@ -3,7 +3,6 @@ import { useState } from "react";
 
 const CreateComment = ({id}) => {
     const submitPost = async () => {
-        console.log(text)
         let data = JSON.stringify({
             "text": text
         });
@@ -18,8 +17,7 @@ const CreateComment = ({id}) => {
             data: data
         };
 
-        const response = await axios.request(config)
-        console.log('response', response);
+        await axios.request(config)
         setText("");
     }
     const [text, setText] = useState("");
