@@ -10,7 +10,7 @@ app.use(cors());
 const port = 3005;
 app.post('/events', (req, res) => {
     const event = req.body;
-    // axios.post("http://localhost:3001/events", event);
+    axios.post("http://localhost:3003/events", event);//query
     axios.post("http://localhost:3002/events", event);//posts
     axios.post("http://localhost:3001/events", event);//comments
 

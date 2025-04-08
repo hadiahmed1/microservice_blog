@@ -34,7 +34,7 @@ app.post('/posts', async (req, res) => {
 
 //event listner
 app.post('/events',(req, res) => {
-    console.log(req.body);
+    // console.log(req.body);
     res.send("ok");
 })
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
