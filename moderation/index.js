@@ -12,10 +12,12 @@ const moderatePost= async (comment)=>{
     const {text} = comment;
     const status=(text.includes('orange'))?'rejected':'approved';
     comment.status= status;
-    await axios.post("http://localhost:3005/events", {
-        type: "commentModerated",
-        data: comment
-    });
+    setTimeout(async () => {
+        await axios.post("http://localhost:3005/events", {
+            type: "commentModerated",
+            data: comment
+        });
+    }, 5000);
 }
 //event lsitner
 app.post('/events',(req, res) => {
