@@ -26,6 +26,12 @@ app.post('/events',(req, res) => {
     else if(type==="commentCreated"){
         const {postId}=data;
         posts[postId].comments.push(data);
+    }else if(type==="commentUpdated"){
+        const {id, postId}=data;
+        const index =posts[postId].comments.findIndex(e=>e.id === id);
+        if(index>-1){
+            posts[postId].comments.splice(index,1,data);
+        }
     }
     res.send("ok");
 })
