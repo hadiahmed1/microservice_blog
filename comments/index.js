@@ -37,9 +37,10 @@ app.post('/posts/:id/comments',async (req,res) => {
 
 //event lsitner
 app.post('/events',async (req, res) => {
-    // console.log(req.body);
-    const {event, data}= req.body;
-    if(event==="commentModerated"){
+    console.log(req.body);
+    const {type, data}= req.body;
+    if(type==="commentModerated"){
+        console.log("recieved:>>",data)
         const comments=commentsByPostID[data.postId];
         const comment = comments.find(comment=>comment.id = data.id);
         comment.status=data.status;
