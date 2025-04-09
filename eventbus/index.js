@@ -13,6 +13,7 @@ app.post('/events', (req, res) => {
     axios.post("http://localhost:3003/events", event);//query
     axios.post("http://localhost:3002/events", event);//posts
     axios.post("http://localhost:3001/events", event);//comments
+    axios.post("http://localhost:3004/events", event);//moderation
 
     res.send("Ok");
 })
