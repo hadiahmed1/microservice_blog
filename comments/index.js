@@ -16,10 +16,12 @@ app.get('/posts/:id/comments', (req, res) => {
 })
 app.post('/posts/:id/comments',async (req,res) => {
     const comments= commentsByPostID[req.params.id] || [];
-    comments.push({
+    const comment= {
         id: ++id,
+        postId: req.params.id,
         text: req.body.text,    
-    });
+    }
+    comments.push(comment);
     commentsByPostID[req.params.id] = comments;
     res.status(200).send({
         success: true,
@@ -28,7 +30,7 @@ app.post('/posts/:id/comments',async (req,res) => {
 
     await axios.post("http://localhost:3005/events", {
         type: "commentCreated",
-        data: { id, postId: req.params.id , text: req.body.text }
+        data: comment
     });
 })
 
