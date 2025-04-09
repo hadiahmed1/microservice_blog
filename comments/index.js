@@ -36,8 +36,18 @@ app.post('/posts/:id/comments',async (req,res) => {
 })
 
 //event lsitner
-app.post('/events',(req, res) => {
+app.post('/events',async (req, res) => {
     // console.log(req.body);
+    const {event, data}= req.body;
+    if(event==="commentModerated"){
+        const comments=commentsByPostID[data.postId];
+        const comment = comments.find(comment=>comment.id = data.id);
+        comment.status=data.status;
+        await axios.post("http://localhost:3005/events", {
+            type: "commentUpdated",
+            data
+        });
+    }
     res.send("ok");
 })
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))

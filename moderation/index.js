@@ -13,7 +13,7 @@ const moderatePost= async (comment)=>{
     const status=(text.includes('orange'))?'rejected':'approved';
     comment.status= status;
     await axios.post("http://localhost:3005/events", {
-        type: "commentUpdated",
+        type: "commentModerated",
         data: comment
     });
 }
