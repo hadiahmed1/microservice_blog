@@ -14,7 +14,7 @@ let id=0;
 app.get('/posts/:id/comments', (req, res) => {
     res.status(200).send(commentsByPostID[req.params.id]);
 })
-app.post('/posts/:id/comments',async (req,res) => {
+app.post('/posts/:id/comments',(req,res) => {
     const comments= commentsByPostID[req.params.id] || [];
     const comment= {
         id: ++id,
@@ -24,28 +24,28 @@ app.post('/posts/:id/comments',async (req,res) => {
     }
     comments.push(comment);
     commentsByPostID[req.params.id] = comments;
+
+    axios.post("http://localhost:3005/events", {
+        type: "commentCreated",
+        data: comment
+    }).catch(error=>console.log("couldn't post event to event bus"));
     res.status(200).send({
         success: true,
         message: "comment added"
     });
-
-    await axios.post("http://localhost:3005/events", {
-        type: "commentCreated",
-        data: comment
-    });
 })
 
 //event lsitner
-app.post('/events',async (req, res) => {
+app.post('/events',(req, res) => {
     const {type, data}= req.body;
     if(type==="commentModerated"){
         const comments=commentsByPostID[data.postId];
         const comment = comments.find(comment=>comment.id = data.id);
         comment.status=data.status;
-        await axios.post("http://localhost:3005/events", {
+        axios.post("http://localhost:3005/events", {
             type: "commentUpdated",
             data
-        });
+        }).catch(error=>console.log("couldn't post event:commentUpdated to event bus"));;
     }
     res.send("ok");
 })
