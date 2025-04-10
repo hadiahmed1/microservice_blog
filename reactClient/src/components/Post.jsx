@@ -16,7 +16,7 @@ const Post = ({ post }) => {
                 <CreateComment id={post.id} />
                 Comments:
                 <ol>
-                    {comments.map(comment => <li key={comment.id} >{comment.text}</li>)}
+                    {comments.map(comment => <li key={comment.id} >{(comment.status === "approved")?comment.text:`Approval ${comment.status}`}</li>)}
                 </ol>
             </div>
 

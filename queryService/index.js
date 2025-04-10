@@ -12,6 +12,23 @@ const commentsByPostID = {};
 let id = 0;
 const posts = {};
 
+const handleEvent = (type, data) => {
+    if (type === "postCreated") {
+        const { id, text } = data;
+        posts[id] = { id, text, comments: [] };
+    }
+    else if (type === "commentCreated") {
+        const { postId } = data;
+        if (posts[postId].comments) posts[postId].comments.push(data);
+    } else if (type === "commentUpdated") {
+        const { id, postId } = data;
+        const index = posts[postId].comments.findIndex(e => e.id === id);
+        if (index > -1) {
+            posts[postId].comments.splice(index, 1, data);
+        }
+    }
+}
+
 app.get('/posts', (req, res) => {
     res.send(posts);
 })
@@ -20,23 +37,22 @@ app.get('/posts', (req, res) => {
 app.post('/events', (req, res) => {
     try {
         const { type, data } = req.body;
-        if (type === "postCreated") {
-            const { id, text } = data;
-            posts[id] = { id, text, comments: [] };
-        }
-        else if (type === "commentCreated") {
-            const { postId } = data;
-            if (posts[postId].comments) posts[postId].comments.push(data);
-        } else if (type === "commentUpdated") {
-            const { id, postId } = data;
-            const index = posts[postId].comments.findIndex(e => e.id === id);
-            if (index > -1) {
-                posts[postId].comments.splice(index, 1, data);
-            }
-        }
-    }catch(error){
+        handleEvent(type, data);
+    } catch (error) {
         console.log("error in queryService:>>", error);
     }
     res.send("ok");
 })
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+app.listen(port, async () => {
+    console.log(`Example app listening on port ${port}!`);
+    try{//sync events
+        const res =await axios.get('http://localhost:3005/events');
+        const events=res.data;
+        events.forEach(event => {
+            handleEvent(event.type, event.data);
+        })
+    }catch(error){
+        console.log(error);
+    }
+ 
+})
