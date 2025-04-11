@@ -18,10 +18,12 @@ try {
         axios.post("http://posts-clusterip-srv:4000/events", event).catch(error=>console.log(error+" in posts"));//posts
         axios.post("http://comments-srv:4001/events", event).catch(error=>console.log(error+" in comments"));//comments
         axios.post("http://moderation-np-srv:4002/events", event).catch(error=>console.log(error+" in moderation"));//moderation
-        axios.post("http://queryservice-cip-srv:4003/events", event).catch(error=>console.log(error+" in query"));//query
+        const qr=axios.post("http://queryservice-cip-srv:4003/events", event).catch(error=>console.log(error+" in query"));//query
+        console.log("qr=",qr.data);
         res.send("Ok");
     });
     app.get('/events', (req, res) => {
+        console.log("events requested");
         res.send(events);
     })
 } catch (error) {

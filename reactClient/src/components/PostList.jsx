@@ -6,7 +6,7 @@ const PostList=()=>{
     const [posts,setPosts] = useState([]);
     
     const fetchPosts = async () => {
-        const response = await axios.get("http://localhost:3003/posts");
+        const response = await axios.get(`${import.meta.env.VITE_QS_URL}/posts`);
         setPosts(response.data);
     }
     useEffect(() => {

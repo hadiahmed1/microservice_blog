@@ -37,6 +37,7 @@ app.get('/posts', (req, res) => {
 app.post('/events', (req, res) => {
     try {
         const { type, data } = req.body;
+        console.log(req.body);
         handleEvent(type, data);
     } catch (error) {
         console.log("error in queryService:>>", error);
@@ -45,13 +46,13 @@ app.post('/events', (req, res) => {
 })
 app.listen(port, async () => {
     console.log(`Example app listening on port ${port}!`);
-    try{//sync events
-        const res =await axios.get('http://eventbus-srv:4005/events');
-        const events=res.data;
-        events.forEach(event => {
-            handleEvent(event.type, event.data);
-        })
-    }catch(error){
-        console.log(error);
-    }
+    // try{//sync events
+    //     const res =await axios.get('http://eventbus-srv:4005/events');
+    //     const events=res.data;
+    //     events.forEach(event => {
+    //         handleEvent(event.type, event.data);
+    //     })
+    // }catch(error){
+    //     console.log(error);
+    // }
 })

@@ -10,7 +10,7 @@ const CreateComment = ({id}) => {
         let config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: `http://localhost:3001/posts/${id}/comments`,
+            url: `${import.meta.env.VITE_COMMENT_URL}/posts/${id}/comments`,
             headers: {
                 'Content-Type': 'application/json'
             },

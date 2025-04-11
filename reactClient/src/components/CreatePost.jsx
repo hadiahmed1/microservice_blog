@@ -11,7 +11,7 @@ const CreatePost = () => {
         let config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: 'http://localhost:3002/posts',
+            url: `${import.meta.env.VITE_POST_URL}/posts`,
             headers: {
                 'Content-Type': 'application/json'
             },
