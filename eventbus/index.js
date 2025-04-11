@@ -15,10 +15,10 @@ try {
         const event = req.body;
         console.log(event)
         events.push(event);
-        // axios.post("http://localhost:3003/events", event).catch(error=>console.log(error+" in query"));//query
         axios.post("http://posts-clusterip-srv:4000/events", event).catch(error=>console.log(error+" in posts"));//posts
-        // axios.post("http://localhost:3001/events", event).catch(error=>console.log(error+" in comments"));//comments
-        // axios.post("http://localhost:3004/events", event).catch(error=>console.log(error+" in moderation"));//moderation
+        axios.post("http://comments-srv:4001/events", event).catch(error=>console.log(error+" in comments"));//comments
+        axios.post("http://moderation-np-srv:4002/events", event).catch(error=>console.log(error+" in moderation"));//moderation
+        axios.post("http://queryservice-cip-srv:4003/events", event).catch(error=>console.log(error+" in query"));//query
         res.send("Ok");
     });
     app.get('/events', (req, res) => {

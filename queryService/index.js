@@ -7,7 +7,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-const port = 3003;
+const port = 4003;
 const commentsByPostID = {};
 let id = 0;
 const posts = {};
@@ -46,7 +46,7 @@ app.post('/events', (req, res) => {
 app.listen(port, async () => {
     console.log(`Example app listening on port ${port}!`);
     try{//sync events
-        const res =await axios.get('http://localhost:3005/events');
+        const res =await axios.get('http://eventbus-srv:4005/events');
         const events=res.data;
         events.forEach(event => {
             handleEvent(event.type, event.data);
@@ -54,5 +54,4 @@ app.listen(port, async () => {
     }catch(error){
         console.log(error);
     }
- 
 })

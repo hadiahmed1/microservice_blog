@@ -7,7 +7,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-const port = 3002;
+const port = 4000;
 const posts = [];
 let id = 0;
 
@@ -19,12 +19,11 @@ app.post('/posts', async (req, res) => {
         id: ++id,
         text: req.body.text,
     });
-    try {
+    try {//transmitting event to event bus
         await axios.post("http://eventbus-srv:4005/events", {
             type: "postCreated",
             data: { id, text: req.body.text }
         });
-        
     } catch (error) {
         console.log("coudn't connect to event bus");
     }

@@ -7,7 +7,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended:true})); 
 app.use(cors());
 
-const port = 3001;
+const port = 4001;
 const commentsByPostID={};
 let id=0;
 
@@ -25,7 +25,7 @@ app.post('/posts/:id/comments',(req,res) => {
     comments.push(comment);
     commentsByPostID[req.params.id] = comments;
 
-    axios.post("http://localhost:3005/events", {
+    axios.post("http://eventbus-srv:4005/events", {
         type: "commentCreated",
         data: comment
     }).catch(error=>console.log("couldn't post event to event bus"));
@@ -42,7 +42,7 @@ app.post('/events',(req, res) => {
         const comments=commentsByPostID[data.postId];
         const comment = comments.find(comment=>comment.id = data.id);
         comment.status=data.status;
-        axios.post("http://localhost:3005/events", {
+        axios.post("http://eventbus-srv:4005/events", {
             type: "commentUpdated",
             data
         }).catch(error=>console.log("couldn't post event:commentUpdated to event bus"));;
