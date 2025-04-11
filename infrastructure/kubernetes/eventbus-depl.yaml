@@ -14,7 +14,7 @@ spec:
     spec:
      containers:
       - name: eventbus
-        image: hadiahmed2002/posts
+        image: hadiahmed2002/eventbus
 
 ---
 apiVersion: v1
